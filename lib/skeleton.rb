@@ -6,19 +6,16 @@ class Skeleton < ::Middleman::Extension
   end
 
   helpers do
-    def resources_for(dir, ext = 'html', exclude_indexes: false)
+    def resources_for(dir, ext = 'html', exclude_indexes = false)
       resources = sitemap.resources
         .select {|r| r.ext == ".#{ext}"}                # Select files only HTML files
         .reject {|r| r.data.hidden}                     # reject hidden (Front matter)
         .select {|r| r.url.start_with?(dir)}            # Select files in the given dir
         .sort_by(&:url)                                 # Sort by URL (ensures indexes first)
         .reject {|r| r.url == dir}                      # Exclude main directory index
-
-      if exclude_indexes
-        resources = resources.reject {|r| r.directory_index? } # Exclude all directory indexes
-      end
-
-      resources
+        .reject {|r|                                    # Exclude all directory indexes
+          exclude_indexes ? r.directory_index? : false
+        }
     end
 
     # Data loader
