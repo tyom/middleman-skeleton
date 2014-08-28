@@ -2,6 +2,7 @@ require 'pry'
 require 'lib/skeleton'
 
 activate :skeleton
+activate :autoprefixer
 
 ###
 # Page options, layouts, aliases and proxies

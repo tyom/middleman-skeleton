@@ -1,6 +1,6 @@
 # If you have OpenSSL installed, we recommend updating
 # the following line to use "https"
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem "middleman"
 gem "middleman-pry"
@@ -9,6 +9,7 @@ gem "bourbon"
 gem "neat"
 gem "normalize-scss"
 gem "font-awesome-sass"
+gem "middleman-autoprefixer", "~>2.1.2"
 
 # Live-reloading plugin
 gem "middleman-livereload"

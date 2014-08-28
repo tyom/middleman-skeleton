@@ -1,7 +1,7 @@
 Middleman Skeleton
 ==================
 
-Middleman template pre-configured with [Slim](https://github.com/slim-template/slim), [Bourbon](https://github.com/thoughtbot/bourbon) + [Neat](https://github.com/thoughtbot/neat), [Normalize CSS](https://github.com/JohnAlbin/normalize-scss), [Font Awesome Sass](https://github.com/FortAwesome/font-awesome-sass), LiveReload and a few useful helpers.
+Middleman template pre-configured with [Slim](https://github.com/slim-template/slim), [Bourbon](https://github.com/thoughtbot/bourbon) + [Neat](https://github.com/thoughtbot/neat), [Normalize CSS](https://github.com/JohnAlbin/normalize-scss), [Font Awesome Sass](https://github.com/FortAwesome/font-awesome-sass), [Autoprefixer](https://github.com/porada/middleman-autoprefixer), LiveReload and a few useful helpers.
 
 ### Installation
 
