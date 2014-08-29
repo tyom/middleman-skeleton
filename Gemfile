@@ -10,6 +10,8 @@ gem "neat"
 gem "normalize-scss"
 gem "font-awesome-sass"
 gem "middleman-autoprefixer", "~>2.1.2"
+gem "rest_client"
+gem "oj"
 
 # Live-reloading plugin
 gem "middleman-livereload"

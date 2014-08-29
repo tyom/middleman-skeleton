@@ -2,7 +2,7 @@ class Skeleton < ::Middleman::Extension
   def initialize(app, options_hash={})
     super
     require_relative './method_missing'
-    require 'open-uri'
+    require 'rest_client'
   end
 
   helpers do
@@ -18,47 +18,41 @@ class Skeleton < ::Middleman::Extension
         }
     end
 
-    # Data loader
-    def load_data(path, options = nil)
-      resource = if path.start_with? 'http'
-        load_remote_data(path, options)
-      else
-        sitemap.find_resource_by_path(relative_dir(current_page.path, path).to_s)
+    def local_data(path)
+      result = sitemap.find_resource_by_path(relative_dir(current_page.path, path).to_s)
+      raise "#{path} not found" unless result
+
+      case result.ext
+      when '.yaml', '.yml'
+        result = YAML.load(result.render)
+      when '.json'
+        result = Oj.load(result.render)
       end
 
-      raise "#{path} not found" unless resource
+      result
+    end
 
-      if ['.yaml', '.yml'].include? resource.ext
-        yaml = resource.render
-      elsif resource.ext == '.json'
-        json = resource.render
+    def get(url, options = {})
+      begin
+        result = RestClient.get(url, options)
+      rescue => e
+        raise "GET - #{e.message}: '#{url}'"
       end
 
-      if json
-        JSON.parse(resource.render)
-      elsif yaml
-        YAML.load(resource.render)
+      Oj.load(result)
+    end
+
+    def post(url, params = {}, headers = {})
+      begin
+        result = RestClient.post(url, params, headers)
+      rescue => e
+        raise "POST - #{e.message}: '#{url}'"
       end
+
+      Oj.load(result)
     end
 
     private
-
-    def load_remote_data(url, options)
-      begin
-        if(options)
-          resource = open(url, http_basic_authentication: [options[:user], options[:password]])
-        else
-          resource = open(url)
-        end
-      rescue
-        raise "Couldn't load the remote: #{url}."
-      end
-      # fake MM resource
-      {
-        ext: '.json',
-        render: resource.read
-      }
-    end
 
     # Constructs path relative to base path (first argument)
     def relative_dir(path, *args)

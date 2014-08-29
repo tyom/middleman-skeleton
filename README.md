@@ -26,10 +26,26 @@ Parameters:
   - `ext` - optional. Resource extension (defaults to `html`)
   - `exclude_indexes` - optional. Whether to exclude directory indexes from the list of resources (defaults to `false`)
 
-#### `load_data`
-Load local (YAML/JSON) or remote data (JSON)
+#### `local_data`
+Load local data from YAML or JSON file. e.g. `= local_data '../data.yaml'
 
 Parameters:
-  - `path` - required. Can be remote (starting with `http/https`). Everything else is treated as local.
-    Including extension (`json`, `yaml`, `yml`). e.g. `./some-directory/data.yaml`. Local path is relative to `source` directory.
-  - `options` - optional. Hash with options. `user` and `password` for basic HTTP authentication.
+  - `path` - required. Relative path to YAML file, including file extension.
+
+#### `get`
+Make an HTTP GET request using [Rest Client](https://github.com/rest-client/rest-client).
+
+Parameters:
+  - `url` - required. Resource URL.
+  - `options` - optional. Headers or parameters.  
+     e.g. `= get 'https://user:password@api.example.com/resource', { params: { filter: 'desc' }, accept: 'application/json' }`
+
+#### `post`
+Make an HTTP POST request using [Rest Client](https://github.com/rest-client/rest-client).
+
+Parameters:
+  - `url` - required. Resource URL.
+  - `params` - optional. Parameters. Passing Ruby hash will force Content-Type to `application/x-www-form-urlencoded`. To use custom Content-Type quote passed JSON.  
+     e.g. `= post 'https://user:password@api.example.com/resource', '{ "name": "Bob" }'`
+  - `headers` - optional. Custom headers  
+     e.g. `= post 'https://user:password@api.example.com/resource', '{}' { accept: 'application/json' }`
