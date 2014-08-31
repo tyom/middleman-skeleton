@@ -45,7 +45,25 @@ set :images_dir, 'assets/images'
 
 set :relative_links, true
 
+###
+# Bower configuration
+###
+
+# Set bower components directory in `.bowerrc`
+bowerrc_dir = JSON.parse(IO.read("#{root}/.bowerrc"))['directory']
+# Sprockets
+ready do
+  sprockets.append_path(File.join(root, bowerrc_dir))
+end
+# Compass
+compass_config do |config|
+  config.add_import_path File.join(root, bowerrc_dir)
+end
+
+###
 # Development-secific configuration
+###
+
 configure :development do
   # Enable Livereload
   activate :livereload, no_swf: true
@@ -58,7 +76,10 @@ configure :development do
   end
 end
 
+###
 # Build-specific configuration
+###
+
 configure :build do
   # Only build files prefixed by target extension (e.g. styles.css.scss)
   ignore /^.*(?<!\.css)\.scss$/
