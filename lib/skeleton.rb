@@ -6,6 +6,14 @@ class Skeleton < ::Middleman::Extension
   end
 
   helpers do
+    def include_javascripts(javascripts)
+      include_assets(:javascript_include_tag, javascripts)
+    end
+
+    def include_stylesheets(stylesheets)
+      include_assets(:stylesheet_link_tag, stylesheets)
+    end
+
     def resources_for(dir, ext = 'html', exclude_indexes = false)
       resources = sitemap.resources
         .select {|r| r.ext == ".#{ext}"}                # Select files only HTML files
@@ -53,6 +61,15 @@ class Skeleton < ::Middleman::Extension
     end
 
     private
+
+    def include_assets(asset_tag, assets)
+      return unless assets
+      assets = assets.split(/,\s*/) if assets.is_a? String
+      Array(assets).map { |a|
+        path = a.start_with?('http') ? a : relative_dir(current_page.path, a)
+        "\n" + method(asset_tag).call(path)
+      }.join
+    end
 
     # Constructs path relative to base path (first argument)
     def relative_dir(path, *args)

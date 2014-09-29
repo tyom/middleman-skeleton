@@ -5,7 +5,9 @@ html
     title = current_page.data.title || yield_content(:page_title) || 'Website'
     meta name='viewport' content='width=device-width'
     = stylesheet_link_tag 'styles'
+    = include_stylesheets(current_page.data.stylesheets || current_page.data.stylesheet)
 
   body class="#{yield_content(:body_class)}"
     = yield
     = javascript_include_tag 'all'
+    = include_javascripts(current_page.data.javascripts || current_page.data.javascripts)
