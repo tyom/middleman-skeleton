@@ -49,3 +49,30 @@ Parameters:
      e.g. `= post 'https://user:password@api.example.com/resource', '{ "name": "Bob" }'`
   - `headers` - optional. Custom headers  
      e.g. `= post 'https://user:password@api.example.com/resource', '{}' { accept: 'application/json' }`
+
+### Frontmatter
+
+There are two special parameters set in [Middleman’s Frontmatter](http://middlemanapp.com/basics/frontmatter/):
+`javascripts` and `stylesheets`. When set, JavaScript and stylesheets are inserted in that particular page.
+
+This is useful for prototyping or creating a page that is different from all other pages in style or functionality (or both).
+
+The parameters can be plural or singular and can take YAML list, single name or comma separated list of names. Paths can be absolute or relative as well as external URL. If prefixed with `/` `source` directory will be used as root. Dot-prefixes are accepted for relative paths. `.css`, `.js` extensions are optional. Files can be in CoffeeScript or Sass (save as `name.css.scss`), Middleman will take care of finding and processing the file.
+
+For example:
+
+```yaml
+---
+  stylesheet: ../style
+  javascripts: my-app.js, /assets/javascripts/global
+---
+
+---
+  stylesheets:
+    - http://static.bbci.co.uk/h4base/0.209.13/style/h4base.css
+    - ./bbc-local
+  javascripts:
+    - ../../above.js
+    - further/down.js
+---
+```
